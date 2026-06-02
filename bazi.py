@@ -4,10 +4,10 @@
 作者 Zim-L
 
 依赖：
-pip install lunar_python colorama
+pip install lunar_python colorama bidict
 datas.py common.py ganzhi.py
 
-datas.py common.py ganzhi.py 来源于china-testing
+datas.py common.py ganzhi.py sizi.py来源于china-testing
 https://github.com/china-testing/bazi
 感谢前辈的辛勤工作
 """
@@ -251,8 +251,8 @@ def mu_ku_status(elem:str,zhis:Zhis)->Tuple[bool,str]:
 ANHE={('丑','寅'),('寅','丑'),('午','亥'),('亥','午'),('卯','申'),('申','卯')}
 
 # 天地自合（整柱）
-TIANDI_ZIHE={("丁","亥"),("戊","子"),("甲","午"),("己","亥"),
-             ("辛","巳"),("壬","午"),("癸","巳")}
+TIANDI_ZIHE={("丁","亥"):"丁壬暗合木",("戊","子"):"戊癸暗合火",("甲","午"):"甲己暗合土",("己","亥"):"甲己暗合土",
+             ("辛","巳"):"丙辛暗合水",("壬","午"):"丁壬暗合木",("癸","巳"):"戊癸暗合火"}
 
 # 双冲 / 双合
 GAN_CHONG={(a,b) for a,b in [( "甲","庚"),("庚","甲"),("乙","辛"),("辛","乙"),
@@ -595,7 +595,7 @@ def pillar_relations(gans:Gans,zhis:Zhis)->None:
         gan=gans[i]; zhi=zhis[i]
         tag=[]
         if (gan,zhi) in TIANDI_ZIHE:
-            tag.append("天地自合")
+            tag.append(f"天地自合({TIANDI_ZIHE[(gan,zhi)]})")
         # 双冲
         for j in range(4):
             if i==j: continue
@@ -626,6 +626,7 @@ def print_dayun(solar:Solar, lunar:Lunar, is_male:bool)->None:
 
     today = datetime.date.today()
 
+    print("0   小运")
     for idx, du in enumerate(yun.getDaYun()[1:]):
         gz = du.getGanZhi()
         start_age = du.getStartAge()
