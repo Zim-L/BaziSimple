@@ -751,6 +751,8 @@ def print_board_simple(gans:Gans, zhis:Zhis, is_male:bool,
     print()
 
 def main():
+    import sys
+    sys.stdout.reconfigure(encoding='utf-8')
     colorama_init(autoreset=True)
     parser=argparse.ArgumentParser()
     parser.add_argument("--sex",choices=["m","f"],default="m")
